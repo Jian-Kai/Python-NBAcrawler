@@ -27,6 +27,7 @@ def get_wrapper(soup, team):
             body[index] = player
             index += 1
         return body[:-2]
+    
     #start player
     startthead = score_thead(scoretable.findAll('thead')[0].findAll('th'))
     startscroe = score_tbody(scoretable.findAll('tbody')[0].findAll('tr'))
@@ -34,11 +35,7 @@ def get_wrapper(soup, team):
     benchthead = score_thead(scoretable.findAll('thead')[1].findAll('th'))
     benchscroe = score_tbody(scoretable.findAll('tbody')[1].findAll('tr'))
 
-
-
-    print(startthead)
-    print(benchscroe)
-    return wrapper
+    return [startthead, startscroe, benchthead, benchscroe]
 
 
 
@@ -48,5 +45,5 @@ def gamebox(gameID):
     res = requests.get('http://www.espn.com/nba/boxscore?gameId=' + gameID)
     soup = BeautifulSoup(res.text, "lxml")
     
-    get_wrapper(soup, 'away')
-    return None
+    box = get_wrapper(soup, 'away')
+    return box
