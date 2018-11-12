@@ -12,10 +12,14 @@ def get_wrapper(soup, team):
             index += 1
         return head    
     
-    def score_tbody(body):
+    def score_tbody(body, cheak):
         
         index = 0
-        for inner in range(0, len(body)-2, 1):
+
+        length = len(body)
+        if(cheak == 'b'):
+            length -= 2
+        for inner in range(0, length, 1):
             inindex = 0
             player = body[inner].findAll('td')
             for play in player:
@@ -26,14 +30,17 @@ def get_wrapper(soup, team):
                 inindex += 1 
             body[index] = player
             index += 1
-        return body[:-2]
+        if(cheak == 'b'):
+            return body[:-2]
+        else:
+            return body
     
     #start player
     startthead = score_thead(scoretable.findAll('thead')[0].findAll('th'))
-    startscroe = score_tbody(scoretable.findAll('tbody')[0].findAll('tr'))
+    startscroe = score_tbody(scoretable.findAll('tbody')[0].findAll('tr'), 's')
     #bench player
     benchthead = score_thead(scoretable.findAll('thead')[1].findAll('th'))
-    benchscroe = score_tbody(scoretable.findAll('tbody')[1].findAll('tr'))
+    benchscroe = score_tbody(scoretable.findAll('tbody')[1].findAll('tr'), 'b')
 
     return [startthead, startscroe, benchthead, benchscroe]
 
