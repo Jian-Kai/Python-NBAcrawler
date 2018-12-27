@@ -1,5 +1,6 @@
 import get_game
 import get_gamebox
+import get_playbyplay
 import json
 
 class GameBox:
@@ -10,10 +11,11 @@ class GameMatch:
     HomeTeam = ''
     AwayTeam = ''
     GameStatus = ''
+
 gameID = '401071167'
 gameinfo = get_game.get_game(gameID)
 gamebox = get_gamebox.gamebox(gameID)
-
+gameplaybyplay = get_playbyplay.playbyplay(gameID)
 #game scroe
 Game = GameMatch()
 Game.AwayTeam = gameinfo[0]
