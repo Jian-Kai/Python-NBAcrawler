@@ -12,10 +12,12 @@ class GameMatch:
     AwayTeam = ''
     GameStatus = ''
 
-gameID = '401071167'
+gameID = '401071198'
 gameinfo = get_game.get_game(gameID)
 gamebox = get_gamebox.gamebox(gameID)
-gameplaybyplay = get_playbyplay.playbyplay(gameID)
+gameplaybyplay = get_playbyplay.playbyplay(gameID, (len(gameinfo[2][0])-2))
+
+
 #game scroe
 Game = GameMatch()
 Game.AwayTeam = gameinfo[0]
@@ -34,3 +36,5 @@ Gamescorejson['HomeTeam'] = Game.HomeTeam
 Gamescorejson['GameStatus'] = Game.GameStatus
 with open('data.json', 'w') as outfile:  
     json.dump(Gamescorejson, outfile)
+
+print(len(gameplaybyplay))

@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+
 def CapturePlay(table):
     Play = []
     for index in range(1, len(table)):
@@ -8,17 +9,27 @@ def CapturePlay(table):
         temp = []
         for detail in details:
             if detail.contents:
-                temp.append(detail.contents[0])   
+                temp.append(detail.contents[0])
         Play.append(temp)
 
-    return  Play
+    return Play
 
 
-def playbyplay(gameID):
+def Quarter(soup, Q):
+    wrapper = soup.find('div', {'id': 'gp-quarter-' + Q})
+    table = wrapper.find('table').findAll('tr')
+    table = CapturePlay(table)
+    return table
+
+
+def playbyplay(gameID, totalQuarter):
     res = requests.get('http://www.espn.com/nba/playbyplay?gameId=' + gameID)
     soup = BeautifulSoup(res.text, "lxml")
-    wrapper = soup.find('div',{'id': 'gp-quarter-1'})
-    table = wrapper.find('table').findAll('tr')
-    CapturePlay(table)
-    #print(table)
-    return 'test'
+    
+    Play = []
+
+    for Q in range(1, totalQuarter + 1):
+        table = Quarter(soup, str(Q))
+        Play.append(table)
+
+    return Play
