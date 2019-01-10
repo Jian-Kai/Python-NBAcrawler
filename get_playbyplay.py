@@ -9,7 +9,10 @@ def CapturePlay(table):
         temp = []
         for detail in details:
             if detail.contents:
-                temp.append(detail.contents[0])
+                if isinstance(detail.contents[0], str):
+                    temp.append(detail.contents[0])
+                else:
+                    temp.append(detail.contents[0]['src'])
         Play.append(temp)
 
     return Play
@@ -25,7 +28,7 @@ def Quarter(soup, Q):
 def playbyplay(gameID, totalQuarter):
     res = requests.get('http://www.espn.com/nba/playbyplay?gameId=' + gameID)
     soup = BeautifulSoup(res.text, "lxml")
-    
+
     Play = []
 
     for Q in range(1, totalQuarter + 1):
